@@ -1,6 +1,6 @@
 <template>
   <div class="header">
-    <div class="container">
+    <the-container>
       <div class="header__logo">
         <a href="#" class="header__logo-link">
           <svg width="0" height="0" class="hidden">
@@ -39,13 +39,17 @@
       <div class="header__time-frame">
         <div class="header__time">12:32</div>
       </div>
-    </div>
+    </the-container>
   </div>
 </template>
 
 <script>
+import TheContainer from "@/components/blocks/TheContainer";
 export default {
   name: "the-header",
+  components: {
+    TheContainer,
+  },
 };
 </script>
 

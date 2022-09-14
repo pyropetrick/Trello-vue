@@ -1,14 +1,33 @@
 <template>
-  <the-header></the-header>
+  <div>
+    <the-header></the-header>
+    <div class="home">
+      <the-container>
+        <div class="trello-list-cards">
+          <the-card></the-card>
+        </div>
+      </the-container>
+    </div>
+    <the-modal></the-modal>
+    <the-warning></the-warning>
+  </div>
 </template>
 
 <script>
 import TheHeader from "@/components/blocks/TheHeader.vue";
+import TheContainer from "@/components/blocks/TheContainer";
+import TheCard from "@/components/TheCard.vue";
+import TheModal from "@/components/TheModal";
+import TheWarning from "@/components/TheWarning";
 
 export default {
   name: "App",
   components: {
     TheHeader,
+    TheContainer,
+    TheCard,
+    TheModal,
+    TheWarning,
   },
 };
 </script>
@@ -84,8 +103,11 @@ select {
   padding: 0;
 }
 
-.container {
-  margin: 0 auto;
-  width: 1200px;
+.home {
+  height: 100vh;
+  display: flex;
+  align-items: center;
+
+  background-color: #f4f4f4;
 }
 </style>
