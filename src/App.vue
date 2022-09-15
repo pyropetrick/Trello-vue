@@ -8,14 +8,13 @@
             v-for="card in cards"
             :key="card.id"
             :title="card.title"
-            :counter="card.counter"
             :id="card.id"
           ></the-card>
         </div>
       </the-container>
     </div>
     <the-modal v-if="getModalActive"></the-modal>
-    <the-warning></the-warning>
+    <the-warning v-if="getWarningActive"></the-warning>
   </div>
 </template>
 
@@ -41,17 +40,14 @@ export default {
     cards: [
       {
         title: "Todo",
-        counter: 0,
         id: "ToDo",
       },
       {
         title: "In Progress",
-        counter: 0,
         id: "Progress",
       },
       {
         title: "Completed",
-        counter: 0,
         id: "Complete",
       },
     ],
@@ -61,7 +57,7 @@ export default {
     ...mapActions("trello", []),
   },
   computed: {
-    ...mapGetters("trello", ["getModalActive"]),
+    ...mapGetters("trello", ["getModalActive", "getWarningActive"]),
   },
   beforeCreate() {
     this.$store.registerModule("trello", Store);

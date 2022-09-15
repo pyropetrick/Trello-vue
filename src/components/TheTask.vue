@@ -10,13 +10,14 @@
         <button
           class="tasks-list__item-actions-edit action-btn"
           v-if="nameCard === 'ToDo'"
-          @click="() => setModalActive(true)"
+          @click="() => onEdit()"
         >
           Edit
         </button>
         <button
           class="tasks-list__item-actions-back action-btn"
           v-if="nameCard === 'Progress'"
+          @click="() => onBack()"
         >
           Back
         </button>
@@ -29,8 +30,15 @@
         </button>
         <button
           class="tasks-list__item-actions-delete action-btn"
-          v-if="nameCard !== 'Progress'"
+          v-if="nameCard === 'ToDo'"
           @click="() => deleteTodo(index)"
+        >
+          Delete
+        </button>
+        <button
+          class="tasks-list__item-actions-delete action-btn"
+          v-if="nameCard === 'Complete'"
+          @click="() => deleteComplete(index)"
         >
           Delete
         </button>
@@ -87,16 +95,33 @@ export default {
       "deleteTodo",
       "addToProgress",
       "addToComplete",
+      "backToTodo",
+      "deleteComplete",
+      "setWarningActive",
+      "setModalAction",
+      "setCurrentEditIdx",
     ]),
     jumpToProgress() {
       const todos = this.getTodos;
-      console.log(todos[this.index]);
-      this.addToProgress(todos[this.index], this.index);
+      const progress = this.getProgress;
+      if (progress.length === 6) {
+        this.setWarningActive(true);
+      } else {
+        this.addToProgress(todos[this.index], this.index);
+      }
+    },
+    onBack() {
+      const progress = this.getProgress;
+      this.backToTodo(progress[this.index], this.index);
     },
     completeTask(index) {
       const progress = this.getProgress;
-      console.log(progress[index]);
       this.addToComplete(progress[index], index);
+    },
+    onEdit() {
+      this.setModalActive(true);
+      this.setCurrentEditIdx(this.index);
+      this.setModalAction("edit");
     },
   },
   computed: {

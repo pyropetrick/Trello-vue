@@ -1,7 +1,15 @@
 <template>
   <div class="item-todo">
     <div class="item-todo__header">
-      <h2 class="item-todo__header-title">{{ title }}: {{ counter }}</h2>
+      <h2 class="item-todo__header-title" v-if="title === 'Todo'">
+        {{ title }}: {{ getTodos.length }}
+      </h2>
+      <h2 class="item-todo__header-title" v-else-if="title === 'In Progress'">
+        {{ title }}: {{ getProgress.length }}
+      </h2>
+      <h2 class="item-todo__header-title" v-else>
+        {{ title }}: {{ getComplete.length }}
+      </h2>
       <p class="item-todo__header-counter"></p>
     </div>
     <ul class="item-todo__task-list tasks-list" v-if="id === 'ToDo'">
@@ -18,36 +26,39 @@
     </ul>
     <ul class="item-todo__task-list tasks-list" v-else-if="id === 'Progress'">
       <the-task
-        v-for="task in getProgress"
+        v-for="(task, idx) in getProgress"
         :key="task.id"
         :name-card="id"
         :title="task.title"
         :description="task.description"
         :id="task.id"
         :time="task.date"
+        :index="idx"
       ></the-task>
     </ul>
     <ul class="item-todo__task-list tasks-list" v-else-if="id === 'Complete'">
       <the-task
-        v-for="task in getComplete"
+        v-for="(task, idx) in getComplete"
         :key="task.id"
         :name-card="id"
         :title="task.title"
         :description="task.description"
         :id="task.id"
         :time="task.date"
+        :index="idx"
       ></the-task>
     </ul>
     <button
       class="item-todo__button-add-todo action-button"
       v-if="id === 'ToDo'"
-      @click="() => setModalActive(true)"
+      @click="() => addTodo()"
     >
       Add todo
     </button>
     <button
       class="item-todo__button-delete-all action-button"
       v-else-if="id === 'Complete'"
+      @click="() => onDeleteAll()"
     >
       Delete All
     </button>
@@ -66,10 +77,6 @@ export default {
       type: String,
       required: true,
     },
-    counter: {
-      type: Number,
-      default: 0,
-    },
     id: {
       type: String,
       required: true,
@@ -77,7 +84,20 @@ export default {
   },
   data: () => ({}),
   methods: {
-    ...mapActions("trello", ["setModalActive"]),
+    ...mapActions("trello", [
+      "setModalActive",
+      "setWarningActive",
+      "setWarningAction",
+      "setModalAction",
+    ]),
+    onDeleteAll() {
+      this.setWarningAction("delete");
+      this.setWarningActive(true);
+    },
+    addTodo() {
+      this.setModalAction("add");
+      this.setModalActive(true);
+    },
   },
   computed: {
     ...mapGetters("trello", ["getTodos", "getProgress", "getComplete"]),

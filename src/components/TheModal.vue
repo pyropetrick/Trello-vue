@@ -32,15 +32,16 @@
 </template>
 
 <script>
-import { mapActions } from "vuex";
+import { mapActions, mapGetters } from "vuex";
 export default {
   data: () => ({
     title: "",
     desc: "",
   }),
   methods: {
-    ...mapActions("trello", ["addTodo", "setModalActive"]),
+    ...mapActions("trello", ["addTodo", "setModalActive", "editTodo"]),
     onConfirm() {
+      const index = this.getCurrentEditIdx;
       const time = new Date();
       const options = {
         hour: "numeric",
@@ -52,11 +53,20 @@ export default {
         id: Date.now(),
         date: time.toLocaleString("ru", options),
       };
-      this.addTodo(task);
+      if (this.getModalAction === "edit") {
+        console.log(index);
+        console.log(task);
+        this.editTodo(task, index);
+      } else {
+        this.addTodo(task);
+      }
       this.title = "";
       this.desc = "";
       this.setModalActive(false);
     },
+  },
+  computed: {
+    ...mapGetters("trello", ["getModalAction", "getCurrentEditIdx"]),
   },
 };
 </script>
