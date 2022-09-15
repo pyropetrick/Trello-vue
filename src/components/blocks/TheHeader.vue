@@ -37,7 +37,7 @@
         </a>
       </div>
       <div class="header__time-frame">
-        <div class="header__time">12:32</div>
+        <div class="header__time">{{ time }}</div>
       </div>
     </the-container>
   </div>
@@ -50,6 +50,12 @@ export default {
   components: {
     TheContainer,
   },
+  data: () => ({
+    time: new Date().toLocaleString("ru", {
+      hour: "numeric",
+      minute: "numeric",
+    }),
+  }),
 };
 </script>
 

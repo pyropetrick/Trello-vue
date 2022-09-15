@@ -4,16 +4,24 @@
     <div class="home">
       <the-container>
         <div class="trello-list-cards">
-          <the-card></the-card>
+          <the-card
+            v-for="card in cards"
+            :key="card.id"
+            :title="card.title"
+            :counter="card.counter"
+            :id="card.id"
+          ></the-card>
         </div>
       </the-container>
     </div>
-    <the-modal></the-modal>
+    <the-modal v-if="getModalActive"></the-modal>
     <the-warning></the-warning>
   </div>
 </template>
 
 <script>
+import { mapGetters, mapActions } from "vuex";
+import Store from "./store/store";
 import TheHeader from "@/components/blocks/TheHeader.vue";
 import TheContainer from "@/components/blocks/TheContainer";
 import TheCard from "@/components/TheCard.vue";
@@ -29,6 +37,45 @@ export default {
     TheModal,
     TheWarning,
   },
+  data: () => ({
+    cards: [
+      {
+        title: "Todo",
+        counter: 0,
+        id: "ToDo",
+      },
+      {
+        title: "In Progress",
+        counter: 0,
+        id: "Progress",
+      },
+      {
+        title: "Completed",
+        counter: 0,
+        id: "Complete",
+      },
+    ],
+  }),
+
+  methods: {
+    ...mapActions("trello", []),
+  },
+  computed: {
+    ...mapGetters("trello", ["getModalActive"]),
+  },
+  beforeCreate() {
+    this.$store.registerModule("trello", Store);
+  },
+  created() {},
+  beforeMount() {},
+  mounted() {},
+  beforeUpdate() {},
+  updated() {},
+  activated() {},
+  deactivated() {},
+  beforeDestroy() {},
+  destroyed() {},
+  errorCaptured() {},
 };
 </script>
 
@@ -109,5 +156,11 @@ select {
   align-items: center;
 
   background-color: #f4f4f4;
+}
+
+.trello-list-cards {
+  display: flex;
+  justify-content: center;
+  gap: 50px;
 }
 </style>

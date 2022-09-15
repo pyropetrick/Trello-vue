@@ -1,11 +1,17 @@
 <template>
   <div class="modal__wrapper">
     <form>
-      <input class="modal__input-title" type="title" placeholder="Title" />
+      <input
+        class="modal__input-title"
+        type="title"
+        placeholder="Title"
+        v-model="title"
+      />
       <input
         class="modal__input-description"
         type="text"
         placeholder="Description"
+        v-model="desc"
       />
     </form>
     <div class="modal__item">
@@ -14,14 +20,45 @@
       </select>
       <div class="modal__buttons">
         <button class="modal__btn-cancel action-button">Cancel</button>
-        <button class="modal__btn-confirm action-button">Confirm</button>
+        <button
+          class="modal__btn-confirm action-button"
+          @click="() => onConfirm()"
+        >
+          Confirm
+        </button>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-export default {};
+import { mapActions } from "vuex";
+export default {
+  data: () => ({
+    title: "",
+    desc: "",
+  }),
+  methods: {
+    ...mapActions("trello", ["addTodo", "setModalActive"]),
+    onConfirm() {
+      const time = new Date();
+      const options = {
+        hour: "numeric",
+        minute: "numeric",
+      };
+      const task = {
+        title: this.title,
+        description: this.desc,
+        id: Date.now(),
+        date: time.toLocaleString("ru", options),
+      };
+      this.addTodo(task);
+      this.title = "";
+      this.desc = "";
+      this.setModalActive(false);
+    },
+  },
+};
 </script>
 
 <style lang="scss" scoped>
@@ -29,7 +66,7 @@ export default {};
   &__wrapper {
     border: 1px solid rgb(35, 185, 95);
     border-radius: 20px;
-    display: none;
+    display: flex;
     flex-direction: column;
     padding: 20px 40px;
     width: 500px;
@@ -38,9 +75,6 @@ export default {};
     position: absolute;
     top: 30%;
     left: 27%;
-    &.active {
-      display: flex;
-    }
   }
 
   &__item {
