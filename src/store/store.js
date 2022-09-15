@@ -44,8 +44,8 @@ export default {
     DELETE_TODO(state, idx) {
       state.todos.splice(idx, 1);
     },
-    EDIT_TODO(state, value, idx) {
-      state.todos[idx] = value;
+    EDIT_TODO(state, value) {
+      state.todos.splice(state.currentEditIdx, 1, value);
     },
     DELETE_COMPLETE(state, idx) {
       state.complete.splice(idx, 1);
@@ -89,8 +89,8 @@ export default {
     deleteTodo({ commit }, idx) {
       commit("DELETE_TODO", idx);
     },
-    editTodo({ commit }, value, idx) {
-      commit("EDIT_TODO", value, idx);
+    editTodo({ commit }, value) {
+      commit("EDIT_TODO", value);
     },
     deleteComplete({ commit }, idx) {
       commit("DELETE_COMPLETE", idx);

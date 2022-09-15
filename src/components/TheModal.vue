@@ -41,7 +41,6 @@ export default {
   methods: {
     ...mapActions("trello", ["addTodo", "setModalActive", "editTodo"]),
     onConfirm() {
-      const index = this.getCurrentEditIdx;
       const time = new Date();
       const options = {
         hour: "numeric",
@@ -54,9 +53,7 @@ export default {
         date: time.toLocaleString("ru", options),
       };
       if (this.getModalAction === "edit") {
-        console.log(index);
-        console.log(task);
-        this.editTodo(task, index);
+        this.editTodo(task);
       } else {
         this.addTodo(task);
       }
@@ -66,7 +63,7 @@ export default {
     },
   },
   computed: {
-    ...mapGetters("trello", ["getModalAction", "getCurrentEditIdx"]),
+    ...mapGetters("trello", ["getModalAction"]),
   },
 };
 </script>
