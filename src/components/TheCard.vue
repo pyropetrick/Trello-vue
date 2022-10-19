@@ -22,6 +22,8 @@
         :id="todo.id"
         :time="todo.date"
         :index="idx"
+        :color="todo.color"
+        :user="todo.user"
       ></the-task>
     </ul>
     <ul class="item-todo__task-list tasks-list" v-else-if="id === 'Progress'">
@@ -34,6 +36,8 @@
         :id="task.id"
         :time="task.date"
         :index="idx"
+        :color="task.color"
+        :user="task.user"
       ></the-task>
     </ul>
     <ul class="item-todo__task-list tasks-list" v-else-if="id === 'Complete'">
@@ -46,6 +50,8 @@
         :id="task.id"
         :time="task.date"
         :index="idx"
+        :color="task.color"
+        :user="task.user"
       ></the-task>
     </ul>
     <button
@@ -84,7 +90,7 @@ export default {
   },
   data: () => ({}),
   methods: {
-    ...mapActions("trello", [
+    ...mapActions([
       "setModalActive",
       "setWarningActive",
       "setWarningAction",
@@ -96,11 +102,12 @@ export default {
     },
     addTodo() {
       this.setModalAction("add");
+      this.setWarningAction("add");
       this.setModalActive(true);
     },
   },
   computed: {
-    ...mapGetters("trello", ["getTodos", "getProgress", "getComplete"]),
+    ...mapGetters(["getTodos", "getProgress", "getComplete"]),
   },
 };
 </script>

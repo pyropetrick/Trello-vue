@@ -20,7 +20,6 @@
 
 <script>
 import { mapGetters, mapActions } from "vuex";
-import Store from "./store/store";
 import TheHeader from "@/components/blocks/TheHeader.vue";
 import TheContainer from "@/components/blocks/TheContainer";
 import TheCard from "@/components/TheCard.vue";
@@ -54,15 +53,15 @@ export default {
   }),
 
   methods: {
-    ...mapActions("trello", []),
+    ...mapActions(["getUsersFromApi"]),
   },
   computed: {
-    ...mapGetters("trello", ["getModalActive", "getWarningActive"]),
+    ...mapGetters(["getModalActive", "getWarningActive"]),
   },
-  beforeCreate() {
-    this.$store.registerModule("trello", Store);
+  beforeCreate() {},
+  created() {
+    this.getUsersFromApi();
   },
-  created() {},
   beforeMount() {},
   mounted() {},
   beforeUpdate() {},

@@ -15,8 +15,10 @@
       />
     </form>
     <div class="modal__item">
-      <select name="list">
-        <option value="user">Select user</option>
+      <select name="list" v-model="currentUser">
+        <option :value="user" v-for="(user, idx) in getUsers" :key="idx">
+          {{ user }}
+        </option>
       </select>
       <div class="modal__buttons">
         <button class="modal__btn-cancel action-button">Cancel</button>
@@ -37,9 +39,17 @@ export default {
   data: () => ({
     title: "",
     desc: "",
+    currentUser: "",
   }),
   methods: {
-    ...mapActions("trello", ["addTodo", "setModalActive", "editTodo"]),
+    ...mapActions(["addTodo", "setModalActive", "editTodo", "getUsersFromApi"]),
+    randomRGB() {
+      const r = Math.floor(Math.random() * 256),
+        g = Math.floor(Math.random() * 256),
+        b = Math.floor(Math.random() * 256),
+        color = `#${r.toString(16)}${g.toString(16)}${b.toString(16)}`;
+      return color;
+    },
     onConfirm() {
       const time = new Date();
       const options = {
@@ -51,6 +61,8 @@ export default {
         description: this.desc,
         id: Date.now(),
         date: time.toLocaleString("ru", options),
+        color: this.randomRGB(),
+        user: this.currentUser,
       };
       if (this.getModalAction === "edit") {
         this.editTodo(task);
@@ -59,12 +71,14 @@ export default {
       }
       this.title = "";
       this.desc = "";
+      this.currentUser = "";
       this.setModalActive(false);
     },
   },
   computed: {
-    ...mapGetters("trello", ["getModalAction"]),
+    ...mapGetters(["getModalAction", "getUsers"]),
   },
+  beforeCreate() {},
 };
 </script>
 

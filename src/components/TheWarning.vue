@@ -32,8 +32,11 @@ export default {
         "Вы пытаетесь добавить 7ую карточку в выполняемые задачи, вернуть первую выполняемую задачу обратно?",
     },
   }),
+  computed: {
+    ...mapGetters(["getWarningAction", "getProgress"]),
+  },
   methods: {
-    ...mapActions("trello", [
+    ...mapActions([
       "deleteAll",
       "addToProgress",
       "setWarningActive",
@@ -51,9 +54,6 @@ export default {
       }
       this.setWarningActive(false);
     },
-  },
-  computed: {
-    ...mapGetters("trello", ["getWarningAction", "getProgress"]),
   },
 };
 </script>

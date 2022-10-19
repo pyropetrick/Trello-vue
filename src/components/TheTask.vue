@@ -1,5 +1,5 @@
 <template>
-  <li class="tasks-list__item">
+  <li class="tasks-list__item" :style="{ 'background-color': color }">
     <div class="tasks-list__item-titles">
       <p class="tasks-list__item-title">{{ title }}</p>
       <p class="tasks-list__item-desc">{{ description }}</p>
@@ -88,9 +88,12 @@ export default {
     index: {
       type: Number,
     },
+    color: {
+      type: String,
+    },
   },
   methods: {
-    ...mapActions("trello", [
+    ...mapActions([
       "setModalActive",
       "deleteTodo",
       "addToProgress",
@@ -125,7 +128,7 @@ export default {
     },
   },
   computed: {
-    ...mapGetters("trello", ["getTodos", "getProgress"]),
+    ...mapGetters(["getTodos", "getProgress"]),
   },
 };
 </script>
