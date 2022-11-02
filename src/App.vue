@@ -2,38 +2,33 @@
   <div>
     <the-header></the-header>
     <div class="home">
-      <the-container>
+      <b-container fluid>
         <div class="trello-list-cards">
-          <the-card
+          <TodoCard
             v-for="card in cards"
             :key="card.id"
             :title="card.title"
             :id="card.id"
-          ></the-card>
+          />
         </div>
-      </the-container>
+      </b-container>
     </div>
-    <the-modal v-if="getModalActive"></the-modal>
-    <the-warning v-if="getWarningActive"></the-warning>
+    <ModalWarning v-if="getWarningActive"/>
   </div>
 </template>
 
 <script>
 import { mapGetters, mapActions } from "vuex";
-import TheHeader from "@/components/blocks/TheHeader.vue";
-import TheContainer from "@/components/blocks/TheContainer";
-import TheCard from "@/components/TheCard.vue";
-import TheModal from "@/components/TheModal";
-import TheWarning from "@/components/TheWarning";
+import TheHeader from "@/components/common/TheHeader.vue";
+import TodoCard from "@/components/TodoCard.vue";
+import ModalWarning from "@/components/ModalWarning.vue";
 
 export default {
   name: "App",
   components: {
     TheHeader,
-    TheContainer,
-    TheCard,
-    TheModal,
-    TheWarning,
+    TodoCard,
+    ModalWarning,
   },
   data: () => ({
     cards: [

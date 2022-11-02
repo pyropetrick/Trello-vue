@@ -81,6 +81,7 @@ export default {
         cursor: pointer;
       }
     }
+
     &-cancel {
       &:hover {
         background-color: red;
@@ -102,6 +103,7 @@ export default {
     gap: 0 10px;
   }
 }
+
 .action-button {
   padding: 5px;
   transition: all 0.3s ease-in-out;

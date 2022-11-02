@@ -13,7 +13,7 @@
       <p class="item-todo__header-counter"></p>
     </div>
     <ul class="item-todo__task-list tasks-list" v-if="id === 'ToDo'">
-      <the-task
+      <TodoTask
         v-for="(todo, idx) in getTodos"
         :key="todo.id"
         :name-card="id"
@@ -24,10 +24,10 @@
         :index="idx"
         :color="todo.color"
         :user="todo.user"
-      ></the-task>
+      />
     </ul>
     <ul class="item-todo__task-list tasks-list" v-else-if="id === 'Progress'">
-      <the-task
+      <TodoTask
         v-for="(task, idx) in getProgress"
         :key="task.id"
         :name-card="id"
@@ -38,10 +38,10 @@
         :index="idx"
         :color="task.color"
         :user="task.user"
-      ></the-task>
+      />
     </ul>
     <ul class="item-todo__task-list tasks-list" v-else-if="id === 'Complete'">
-      <the-task
+      <TodoTask
         v-for="(task, idx) in getComplete"
         :key="task.id"
         :name-card="id"
@@ -52,31 +52,32 @@
         :index="idx"
         :color="task.color"
         :user="task.user"
-      ></the-task>
+      />
     </ul>
-    <button
-      class="item-todo__button-add-todo action-button"
+    <b-button
       v-if="id === 'ToDo'"
-      @click="() => addTodo()"
+      @click="openModalForm"
     >
       Add todo
-    </button>
-    <button
-      class="item-todo__button-delete-all action-button"
+    </b-button>
+    <b-button
       v-else-if="id === 'Complete'"
       @click="() => onDeleteAll()"
     >
       Delete All
-    </button>
+    </b-button>
+    <ModalForm ref="modalForm" @formData="addTask"/>
   </div>
 </template>
 
 <script>
 import { mapActions, mapGetters } from "vuex";
-import TheTask from "@/components/TheTask.vue";
+import TodoTask from "@/components/TodoTask.vue";
+import ModalForm from "@/components/ModalForm.vue";
 export default {
   components: {
-    TheTask,
+    TodoTask,
+    ModalForm,
   },
   props: {
     title: {
@@ -91,8 +92,7 @@ export default {
   data: () => ({}),
   methods: {
     ...mapActions([
-      "setModalActive",
-      "setWarningActive",
+      "addTodo",
       "setWarningAction",
       "setModalAction",
     ]),
@@ -100,11 +100,36 @@ export default {
       this.setWarningAction("delete");
       this.setWarningActive(true);
     },
-    addTodo() {
-      this.setModalAction("add");
-      this.setWarningAction("add");
-      this.setModalActive(true);
+    openModalForm() {
+      this.$refs.modalForm.showModal();
     },
+    randomRGB() {
+      const r = Math.floor(Math.random() * 256),
+        g = Math.floor(Math.random() * 256),
+        b = Math.floor(Math.random() * 256),
+        color = `#${r.toString(16)}${g.toString(16)}${b.toString(16)}`;
+      return color;
+    },
+    addTask({title, desc, user}) {
+      const time = new Date();
+      const options = {
+        hour: "numeric",
+        minute: "numeric",
+      };
+      const task = {
+        title: title,
+        description: desc,
+        id: Date.now(),
+        date: time.toLocaleString("ru", options),
+        color: this.randomRGB(),
+        user: user,
+      };
+      if (this.getModalAction === "edit") {
+        this.editTodo(task);
+      } else {
+        this.addTodo(task);
+      }
+    }
   },
   computed: {
     ...mapGetters(["getTodos", "getProgress", "getComplete"]),

@@ -1,6 +1,6 @@
 <template>
   <div class="header">
-    <the-container>
+    <div class="container">
       <div class="header__logo">
         <a href="#" class="header__logo-link">
           <svg width="0" height="0" class="hidden">
@@ -39,17 +39,14 @@
       <div class="header__time-frame">
         <div class="header__time">{{ time }}</div>
       </div>
-    </the-container>
+    </div>
   </div>
 </template>
 
 <script>
-import TheContainer from "@/components/blocks/TheContainer";
 export default {
   name: "the-header",
-  components: {
-    TheContainer,
-  },
+  components: {},
   data: () => ({
     time: new Date().toLocaleString("ru", {
       hour: "numeric",
@@ -74,6 +71,7 @@ export default {
     padding: 10px;
     background-color: #ececec;
   }
+
   &__logo {
     &-link {
       //width: 36px;
@@ -82,6 +80,7 @@ export default {
       align-items: center;
       gap: 0 10px;
     }
+
     &-title {
       font-weight: 600;
 
@@ -90,15 +89,18 @@ export default {
       letter-spacing: 1px;
       transition: all 0.2s ease-in-out;
     }
+
     &-svg {
       width: 32px;
       height: 32px;
       fill: #0079bf;
+
       &:hover {
         cursor: pointer;
       }
     }
   }
+
   &__time-frame {
     border: 1px solid #a9a9a9;
     border-radius: 5px;
@@ -106,6 +108,7 @@ export default {
     width: 100px;
     height: 45px;
   }
+
   &__time {
     text-align: center;
     padding: 10px;
