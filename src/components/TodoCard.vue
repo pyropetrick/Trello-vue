@@ -13,7 +13,7 @@
       <p class="item-todo__header-counter"></p>
     </div>
     <ul class="item-todo__task-list tasks-list" v-if="id === 'ToDo'">
-      <the-task
+      <TodoTask
         v-for="(todo, idx) in getTodos"
         :key="todo.id"
         :name-card="id"
@@ -24,10 +24,10 @@
         :index="idx"
         :color="todo.color"
         :user="todo.user"
-      ></the-task>
+      />
     </ul>
     <ul class="item-todo__task-list tasks-list" v-else-if="id === 'Progress'">
-      <the-task
+      <TodoTask
         v-for="(task, idx) in getProgress"
         :key="task.id"
         :name-card="id"
@@ -38,10 +38,10 @@
         :index="idx"
         :color="task.color"
         :user="task.user"
-      ></the-task>
+      />
     </ul>
     <ul class="item-todo__task-list tasks-list" v-else-if="id === 'Complete'">
-      <the-task
+      <TodoTask
         v-for="(task, idx) in getComplete"
         :key="task.id"
         :name-card="id"
@@ -52,7 +52,7 @@
         :index="idx"
         :color="task.color"
         :user="task.user"
-      ></the-task>
+      />
     </ul>
     <b-button
       v-if="id === 'ToDo'"
@@ -66,18 +66,18 @@
     >
       Delete All
     </b-button>
-    <the-modal ref="modalForm" @formData="addTask"></the-modal>
+    <ModalForm ref="modalForm" @formData="addTask"/>
   </div>
 </template>
 
 <script>
 import { mapActions, mapGetters } from "vuex";
-import TheTask from "@/components/TheTask.vue";
-import TheModal from "@/components/TheModal.vue";
+import TodoTask from "@/components/TodoTask.vue";
+import ModalForm from "@/components/ModalForm.vue";
 export default {
   components: {
-    TheTask,
-    TheModal,
+    TodoTask,
+    ModalForm,
   },
   props: {
     title: {

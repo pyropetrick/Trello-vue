@@ -54,28 +54,25 @@ export default {
 
     onSubmit() {
       this.$emit('formData', this.form);
-      this.form.title = "";
-      this.form.desc = "";
-      this.form.user = "";
       this.hideModal();
     },
     onReset() {
-      this.form.title = "";
-      this.form.desc = "";
-      this.form.user = "";
       this.hideModal();
     },
     showModal() {
       this.$refs.modalRef.show();
     },
     hideModal() {
+      this.form.title = "";
+      this.form.desc = "";
+      this.form.user = "";
       this.$refs.modalRef.hide();
     },
   },
   computed: {
     ...mapGetters(["getModalAction", "getUsers"]),
     validationTitle() {
-      return this.form.title.length > 5;
+      return this.form.title.length >= 5;
     },
     validationUser() {
       return this.form.user.length > 0;
